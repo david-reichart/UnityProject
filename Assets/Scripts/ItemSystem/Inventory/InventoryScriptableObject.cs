@@ -8,6 +8,7 @@ namespace ItemSystem.Inventory {
     [CreateAssetMenu(fileName = "InventoryScriptableObject", menuName = "Item System Scriptable Objects/Inventory")]
     public class InventoryScriptableObject : ScriptableObject {
         [SerializeField] public List<InventoryItem> inventory = new List<InventoryItem>();
+        [SerializeField] public int inventorySize = 20;
 
         public void AddItemToInventory(ItemScriptableObject itemToAdd, int amountToAdd) {
             bool hasItem = false;
