@@ -21,5 +21,9 @@ namespace ItemSystem.Inventory {
         public void RemoveQuantity(int quantityToRemove) {
             this.itemQuantity -= quantityToRemove;
         }
+
+        public Sprite GetSprite() {
+            return this.itemInSlot.itemSprite;
+        }
     }
 }

@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Agents.PlayerCharacter;
 using ItemSystem.Inventory;
+using StateManagement.StateClasses;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,15 +14,24 @@ public class InventoryUIManager : MonoBehaviour {
     [SerializeField] private int currentItemCount;
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private VisualElement uiInventoryContainer;
+    private PlayerState playerState;
 
     private void Start() {
         this.currentItemCount = playerInventory.inventory.Count; // how many items the player currently has
         this.inventorySlotCount = playerInventory.inventorySize; // max number of items allowed
-
+        
         this.uiDocument = GetComponent<UIDocument>();
         this.uiInventoryContainer = uiDocument.rootVisualElement.Q<VisualElement>("UIBackground");
+
+        this.playerState = FindObjectOfType<PlayerCharacter>().GetComponent<PlayerState>();
         
         InitializeUI();
+    }
+
+    private void Update() {
+        if (playerInventory.inventory.Count > 0) {
+            DisplayItem();
+        }
     }
 
     // Should be called once at instantiation of the player's inventory UI.
@@ -65,6 +77,23 @@ public class InventoryUIManager : MonoBehaviour {
         VisualElement newInventorySlot = new VisualElement();
         newInventorySlot.AddToClassList("inventorySlot");
         newInventorySlot.name = "ItemSlot" + rowNumber + "-" + slotNumber;
+        VisualElement quantityLabel = CreateSlotQuantityLabel();
+        quantityLabel.name = "ItemSlotLabel" + rowNumber + "-" + slotNumber;
+        newInventorySlot.Add(quantityLabel);
         return newInventorySlot;
+    }
+
+    private Label CreateSlotQuantityLabel() {
+        Label label = new Label("0");
+        label.AddToClassList("inventorySlotQuantityText");
+        return label;
+    }
+
+    private void DisplayItem() {
+        VisualElement slot = uiInventoryContainer.Q<VisualElement>("ItemSlot1-0");
+        slot.style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0)); // make background invis
+        slot.style.backgroundImage = new StyleBackground(playerInventory.inventory[0].GetSprite());
+        Label slotQuantity = slot.Q<Label>("ItemSlotLabel1-0");
+        slotQuantity.text = playerInventory.inventory[0].itemQuantity.ToString();
     }
 }

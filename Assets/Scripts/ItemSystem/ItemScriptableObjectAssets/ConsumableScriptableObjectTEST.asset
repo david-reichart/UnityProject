@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConsumableScriptableObjectTEST
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 0}
-  itemSprite: {fileID: 21300000, guid: 6733cd15e1e1e244d9374e10e8f0dbdd, type: 3}
+  itemSprite: {fileID: 21300000, guid: 315ce99df15c2d74eb551b96571d8a05, type: 3}
   itemType: 0
   itemName: Item name.
   itemDescription: Item description here.
